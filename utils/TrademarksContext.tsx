@@ -18,7 +18,10 @@ export const TMContext = createContext<{
 export const useTM = (): {
   saveTM: (tm: ITrademark[] | null) => void;
   trademark: ITrademark[] | null;
-  fetchTM: (query: string) => Promise<{ data: ITrademark[] } | { data: null }>;
+  fetchTM: (
+    query: string,
+    filters: string[]
+  ) => Promise<{ data: ITrademark[] } | { data: null }>;
 } => {
   const { trademark, setTM } = useContext(TMContext);
 
@@ -26,13 +29,13 @@ export const useTM = (): {
     setTM(tm);
   };
 
-  const fetchTM = async (query: string) => {
+  const fetchTM = async (query: string, filters: string[]) => {
     try {
       const response = await fetch(
         "https://statsnet.co/api/global/trademarks",
         {
           method: "POST",
-          body: JSON.stringify({ query }),
+          body: JSON.stringify({ query, classifications: filters }),
           headers: {
             "X-TOKEN": "drRN54UheELrwsNr2KjyAjBQKaU34RBc",
             "Content-Type": "application/json",

@@ -12,30 +12,71 @@ import {
   useDisclosure,
   Skeleton,
   Heading,
+  Tag,
+  Collapse,
+  FormControl,
+  TagLabel,
+  TagCloseButton,
 } from "@chakra-ui/react";
-import React, { FormEvent, useRef, useState } from "react";
+import { useRouter } from "next/dist/client/router";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import Layout from "../components/Layout";
 import { SearchItem } from "../components/SearchItem";
 import { ITrademark } from "../interfaces";
+import { classifications } from "../utils/sample-data";
 import { useTM } from "../utils/TrademarksContext";
+const removeUndefined = (o: Record<any, any>) =>
+  Object.entries(o)
+    .filter(([, val]) => val !== undefined)
+    .reduce((result, [key, val]) => {
+      //@ts-ignore
+      result[key] = val;
+      return result;
+    }, {});
 
 const IndexPage = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { isOpen, onToggle } = useDisclosure();
+  const [selected, setSelected] = useState<Record<any, any>>({});
   const { trademark, fetchTM } = useTM();
   const [result, setResult] = useState<ITrademark[] | null | string>(trademark);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFirst, setIsFirst] = useState(true);
+
   const searchHandler = async (e: FormEvent) => {
     e.preventDefault();
     setResult(null);
     const query = inputRef.current?.value || "";
     setIsLoading(true);
-    const response: { data: ITrademark[] | null } = await fetchTM(query);
+    const filters = Object.entries(selected).map(([key, val]) => val && key);
+    console.log(filters);
+    const response: { data: ITrademark[] | null } = await fetchTM(
+      query,
+      filters
+    );
     setIsLoading(false);
 
     setResult(response.data);
   };
-  console.log(result);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router && router.query.filters && isFirst) {
+      console.log(router.query.filters);
+      setIsFirst(false);
+      const toRender: Record<any, any> = {};
+      (router.query.filters as string)
+        .split(",")
+        .map((el) => (toRender[el] = true));
+      console.log(toRender);
+      setSelected((prev) => ({
+        ...prev,
+        ...toRender,
+      }));
+      console.log(selected);
+      onToggle();
+    }
+  }, [router]);
   return (
     <Layout title="Поиск по товарным знакам">
       <Grid
@@ -52,16 +93,23 @@ const IndexPage = () => {
           flexDirection="column"
           gridGap={4}
         >
-          <form onSubmit={(e: any) => searchHandler(e)}>
+          <FormControl
+            as="form"
+            onSubmit={(e: any) => searchHandler(e)}
+            borderWidth={1}
+            rounded="xl"
+            shadow="sm"
+          >
             <Flex
               h={70}
               display={{ sm: "flex", lg: "none" }}
               direction="row"
               alignItems="center"
               justify="center"
-              shadow="md"
-              borderWidth={1}
+              // shadow="md"
+              // borderWidth={1}
               rounded="xl"
+              mb={2}
             >
               <Button
                 bg="purple.600"
@@ -78,12 +126,25 @@ const IndexPage = () => {
                 rightIcon={
                   <SmallCloseIcon display={isOpen ? "block" : "none"} />
                 }
-                onClick={onToggle}
+                onClick={() => {
+                  if (isOpen === true) {
+                    router.push({
+                      pathname: router.pathname,
+                    });
+                    setSelected({});
+                  }
+                  onToggle();
+                }}
               >
                 Расширеный поиск
               </Button>
             </Flex>
-            <InputGroup h={70} rounded="xl" shadow="sm" borderWidth={1}>
+            <InputGroup
+              h={70}
+              border={0}
+              borderColor="transparent"
+              mb={isOpen ? 6 : 0}
+            >
               <InputLeftElement
                 h="100%"
                 pointerEvents="none"
@@ -129,10 +190,19 @@ const IndexPage = () => {
                       rightIcon={
                         <SmallCloseIcon display={isOpen ? "block" : "none"} />
                       }
-                      onClick={onToggle}
+                      onClick={() => {
+                        if (isOpen === true) {
+                          router.push({
+                            pathname: router.pathname,
+                          });
+                          setSelected({});
+                        }
+                        onToggle();
+                      }}
                       transition="all ease-in"
                       transitionDuration="500ms"
                     >
+                      {" "}
                       Расширеный поиск
                     </Button>
                   </HStack>
@@ -140,7 +210,36 @@ const IndexPage = () => {
                 h="100%"
               />
             </InputGroup>
-          </form>
+            <Collapse in={isOpen} animateOpacity>
+              <Flex h="auto" flexWrap="wrap">
+                {classifications.map((e) => (
+                  <Tag
+                    m={2}
+                    size="lg"
+                    cursor="pointer"
+                    borderRadius="full"
+                    colorScheme={selected[e.id] ? "purple" : "gray"}
+                    onClick={() => {
+                      router.push({
+                        pathname: router.pathname,
+                        query: removeUndefined({
+                          ...router.query,
+                          filters: router.query.filters
+                            ? router.query.filters + "," + e.id
+                            : e.id,
+                        }),
+                      });
+                      // console.log(router.query);
+                      setSelected((prev) => ({ ...prev, [e.id]: !prev[e.id] }));
+                    }}
+                  >
+                    <TagLabel>{e.id}</TagLabel>
+                    {selected[e.id] && <TagCloseButton />}
+                  </Tag>
+                ))}
+              </Flex>
+            </Collapse>
+          </FormControl>
         </GridItem>
 
         <GridItem colSpan={6}>
