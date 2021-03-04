@@ -17,6 +17,7 @@ import {
   FormControl,
   TagLabel,
   TagCloseButton,
+  Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
@@ -139,12 +140,7 @@ const IndexPage = () => {
                 Расширеный поиск
               </Button>
             </Flex>
-            <InputGroup
-              h={70}
-              border={0}
-              borderColor="transparent"
-              mb={isOpen ? 6 : 0}
-            >
+            <InputGroup h={70} border={0} borderColor="transparent">
               <InputLeftElement
                 h="100%"
                 pointerEvents="none"
@@ -211,6 +207,8 @@ const IndexPage = () => {
               />
             </InputGroup>
             <Collapse in={isOpen} animateOpacity>
+              <Text p={3}>Выберите классы МКТУ для уточнения поиска</Text>
+
               <Flex h="auto" flexWrap="wrap">
                 {classifications.map((e) => (
                   <Tag
