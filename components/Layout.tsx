@@ -1,4 +1,4 @@
-import { Box, Container, HStack } from "@chakra-ui/layout";
+import { Box, Container } from "@chakra-ui/layout";
 import { Flex, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";

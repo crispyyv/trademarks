@@ -1,13 +1,4 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  Image,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Flex, Image } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { ITrademark } from "../interfaces";
