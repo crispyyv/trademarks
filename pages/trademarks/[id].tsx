@@ -36,7 +36,7 @@ const mockData: ITrademark = {
   trademark_number: "11086",
   updated_at: "2021-01-08T20:22:44.568584Z",
 };
-const TM = ({ id, tm }: ITMProps) => {
+const TM = ({ tm }: ITMProps) => {
   const [data, setData] = useState<ITrademark | null>();
   useEffect(() => {
     if (!tm) {
@@ -50,7 +50,7 @@ const TM = ({ id, tm }: ITMProps) => {
   }, []);
 
   return (
-    <Layout>
+    <Layout title={`Торговые марки - ${data?.title}`}>
       <Grid w="full" templateColumns="repeat(4,1fr)">
         <GridItem colSpan={2}>
           <VStack spacing={4} alignItems="start" mb={8}>
