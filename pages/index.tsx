@@ -1,23 +1,23 @@
 import { Search2Icon, SmallCloseIcon } from "@chakra-ui/icons";
 import {
-  InputGroup,
-  InputLeftElement,
-  Input,
+  Button,
+  Collapse,
+  Flex,
+  FormControl,
   Grid,
   GridItem,
-  InputRightElement,
-  HStack,
-  Button,
-  Flex,
-  useDisclosure,
-  Skeleton,
   Heading,
+  HStack,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Skeleton,
   Tag,
-  Collapse,
-  FormControl,
-  TagLabel,
   TagCloseButton,
+  TagLabel,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
@@ -60,7 +60,7 @@ const IndexPage = () => {
     setResult(response.data);
   };
   const router = useRouter();
-
+  console.log(trademark);
   useEffect(() => {
     if (router && router.query.filters && isFirst) {
       console.log(router.query.filters);
@@ -251,7 +251,7 @@ const IndexPage = () => {
             </Heading>
             <Flex
               justify={{ sm: "center", md: "space-between" }}
-              alignItems="center"
+              alignItems="start"
               flexWrap="wrap"
             >
               {(Array.isArray(result) &&

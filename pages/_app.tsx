@@ -1,8 +1,8 @@
-import React from "react";
 import { ChakraProvider, CSSReset, extendTheme } from "@chakra-ui/react";
-import { AppProps } from "next/app";
-import { Fonts } from "../components/chakra/Fonts";
 import { createBreakpoints } from "@chakra-ui/theme-tools";
+import { AppProps } from "next/app";
+import React from "react";
+import { Fonts } from "../components/chakra/Fonts";
 import { TMContext, useCurrentTM } from "../utils/TrademarksContext";
 // This is the default breakpoint
 const breakpoints = createBreakpoints({
@@ -15,8 +15,8 @@ const breakpoints = createBreakpoints({
 
 const theme = extendTheme({
   fonts: {
-    body: "'Roboto', system-ui, sans-serif",
-    heading: "'Open Sans',Georgia, sans-serif, serif",
+    body: "Helvetica, Arial",
+    heading: "Stem, sans-serif, serif",
     mono: "Menlo, monospace",
   },
   breakpoints,

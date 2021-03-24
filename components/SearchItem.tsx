@@ -2,40 +2,49 @@ import { Box, Flex, Image } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { ITrademark } from "../interfaces";
-
 export interface ISearchItemProps {
   item: ITrademark; //must be changed
 }
 
 export const SearchItem = ({ item }: ISearchItemProps) => {
   return (
-    <Box
-      height={40}
-      width={40}
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      mb={4}
-    >
-      <Link href={`/trademarks/${item.id}`}>
-        <a>
-          <Image src={item.image} alt={item.title} w="100%" h="60%" />
-          <Flex
-            direction="column"
-            justify="flex-end"
-            h="40%"
-            alignItems="end"
-            textAlign="left"
-          >
-            <Box w="100%" fontSize="md">
-              {item.title}
-            </Box>
-            <Box w="100%" fontSize="sm">
-              Товарный знак {item.holder_country} № {item.trademark_number}
-            </Box>
-          </Flex>
-        </a>
-      </Link>
-    </Box>
+    <Link href={`/trademarks/${item.id}`}>
+      <a>
+        <Box
+          height={40}
+          width={40}
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          mb={4}
+        >
+          <Image
+            src={`${
+              item.image ||
+              `https://statsnet.co/static/trademarks/${item.trademark_number}.png`
+            }`}
+            alt={item.title}
+            objectFit="cover"
+          />
+        </Box>
+        <Flex
+          direction="column"
+          justify="flex-end"
+          h="40%"
+          alignItems="end"
+          textAlign="left"
+        >
+          <Box maxW={40} fontSize="md" color="blue.500">
+            {item.title}
+          </Box>
+          <Box maxW={40} fontSize="sm">
+            {item.holder}
+          </Box>
+          <Box w="100%" fontSize="sm" color="gray.600">
+            {item.holder_country}-{item.trademark_number} · {item.source}
+          </Box>
+        </Flex>
+      </a>
+    </Link>
   );
 };
