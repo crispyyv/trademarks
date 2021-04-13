@@ -19,10 +19,11 @@ export const SearchItem = ({ item }: ISearchItemProps) => {
           mb={4}
         >
           <Image
-            src={`${
-              item.image ||
-              `https://statsnet.co/static/trademarks/${item.trademark_number}.png`
-            }`}
+            src={
+              item?.image_url ||
+              item?.image ||
+              `https://statsnet.co/static/trademarks/${item?.image_path}.png`
+            }
             alt={item.title}
             objectFit="cover"
           />

@@ -17,6 +17,8 @@ export interface ITrademark {
   source: string;
   status: string;
   title: string;
+  image_url: string;
+  image_path: string;
   trademark_number: string;
   created_at: string;
   deleted_at: string | null;

@@ -28,6 +28,8 @@ const mockData: ITrademark = {
   holder_country: "KZ",
   id: 28787,
   image: "http://gosreestr.kazpatent.kz/Trademark/Details?docNumber=56817",
+  image_url: "",
+  image_path: "",
   origin: "",
   registration_date: "2000-12-14T00:00:00Z",
   source: "Казпатент",
@@ -84,7 +86,14 @@ const TM = ({ tm }: ITMProps) => {
         <GridItem colSpan={1} />
         <GridItem colSpan={1}>
           <Box boxSize="104px" mb={8}>
-            <Image src={data?.image} alt={data?.title} />
+            <Image
+              src={
+                data?.image_url ||
+                data?.image ||
+                `https://statsnet.co/static/trademarks/${data?.image_path}.png`
+              }
+              alt={data?.title}
+            />
           </Box>
 
           <VStack spacing={2} alignItems="start">
