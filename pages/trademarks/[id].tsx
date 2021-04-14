@@ -51,7 +51,7 @@ const TM = ({ tm }: ITMProps) => {
       setData(null);
     };
   }, []);
-  console.log(tm, data);
+
   return (
     <Layout title={`Торговые марки - ${data?.title}`}>
       <Grid w="full" templateColumns="repeat(4,1fr)">
@@ -99,6 +99,7 @@ const TM = ({ tm }: ITMProps) => {
                     https://statsnet.co/static/trademarks/${data?.image_path}
                   `
               }
+              fallbackSrc="https://via.placeholder.com/160"
               alt={data?.title}
               objectFit="cover"
             />

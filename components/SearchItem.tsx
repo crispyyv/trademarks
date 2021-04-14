@@ -30,6 +30,7 @@ export const SearchItem = ({ item }: ISearchItemProps) => {
                 https://statsnet.co/static/trademarks/${item?.image_path}
               `
             }
+            fallbackSrc="https://via.placeholder.com/160"
             alt={item.title}
             objectFit="cover"
           />
