@@ -12,6 +12,7 @@ import { GetServerSideProps } from "next";
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { ITrademark } from "../../interfaces";
+import { headers } from "../../utils/fetch-helpers";
 import { classifications } from "../../utils/sample-data";
 
 export interface ITMProps {
@@ -50,7 +51,7 @@ const TM = ({ tm }: ITMProps) => {
       setData(null);
     };
   }, []);
-
+  console.log(tm, data);
   return (
     <Layout title={`Торговые марки - ${data?.title}`}>
       <Grid w="full" templateColumns="repeat(4,1fr)">
@@ -88,11 +89,18 @@ const TM = ({ tm }: ITMProps) => {
           <Box boxSize="104px" mb={8}>
             <Image
               src={
+                //@ts-ignore
+                data?.url ||
                 data?.image_url ||
                 data?.image ||
-                `https://statsnet.co/static/trademarks/${data?.image_path}.png`
+                data?.image_path.includes("https")
+                  ? data?.image_path
+                  : `
+                    https://statsnet.co/static/trademarks/${data?.image_path}
+                  `
               }
               alt={data?.title}
+              objectFit="cover"
             />
           </Box>
 
@@ -135,19 +143,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   try {
     const response = await fetch(
-      "https://statsnet.co/api/dynamic/global/trademarks",
+      "https://api.statsnet.co/api/dynamic/global/trademarks",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-token": "drRN54UheELrwsNr2KjyAjBQKaU34RBc",
+          ...headers("drRN54UheELrwsNr2KjyAjBQKaU34RBc"),
         },
-        body: JSON.stringify({ id: parseInt(id as string) }),
+        body: JSON.stringify({ id_: parseInt(id as string) }),
       }
     );
-    console.log(response);
     const result = await response.json();
-    console.log(result);
     return { props: { id, tm: result.data } };
   } catch (err) {
     console.log(err);

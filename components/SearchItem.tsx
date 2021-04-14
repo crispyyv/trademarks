@@ -20,9 +20,15 @@ export const SearchItem = ({ item }: ISearchItemProps) => {
         >
           <Image
             src={
+              //@ts-ignore
+              item?.url ||
               item?.image_url ||
               item?.image ||
-              `https://statsnet.co/static/trademarks/${item?.image_path}.png`
+              item?.image_path.includes("https")
+                ? item?.image_path
+                : `
+                https://statsnet.co/static/trademarks/${item?.image_path}
+              `
             }
             alt={item.title}
             objectFit="cover"

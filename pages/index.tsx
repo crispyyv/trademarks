@@ -50,7 +50,6 @@ const IndexPage = () => {
     const query = inputRef.current?.value || "";
     setIsLoading(true);
     const filters = Object.entries(selected).map(([key, val]) => val && key);
-    console.log(filters);
     const response: { data: ITrademark[] | null } = await fetchTM(
       query,
       filters
@@ -60,21 +59,17 @@ const IndexPage = () => {
     setResult(response.data);
   };
   const router = useRouter();
-  console.log(trademark);
   useEffect(() => {
     if (router && router.query.filters && isFirst) {
-      console.log(router.query.filters);
       setIsFirst(false);
       const toRender: Record<any, any> = {};
       (router.query.filters as string)
         .split(",")
         .map((el) => (toRender[el] = true));
-      console.log(toRender);
       setSelected((prev) => ({
         ...prev,
         ...toRender,
       }));
-      console.log(selected);
       onToggle();
     }
   }, [router]);

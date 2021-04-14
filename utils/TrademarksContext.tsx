@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import { ITrademark } from "../interfaces";
+import { headers } from "./fetch-helpers";
 
 export const TMContext = createContext<{
   trademark: ITrademark[] | null;
@@ -32,13 +33,13 @@ export const useTM = (): {
   const fetchTM = async (query: string, filters: string[]) => {
     try {
       const response = await fetch(
-        "https://statsnet.co/api/global/trademarks",
+        "https://api.statsnet.co/api/global/trademarks",
         {
           method: "POST",
           body: JSON.stringify({ query, classifications: filters }),
           headers: {
-            "X-TOKEN": "drRN54UheELrwsNr2KjyAjBQKaU34RBc",
             "Content-Type": "application/json",
+            ...headers("drRN54UheELrwsNr2KjyAjBQKaU34RBc"),
           },
         }
       );
