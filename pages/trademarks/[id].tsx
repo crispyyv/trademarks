@@ -88,7 +88,7 @@ const TM = ({ tm }: ITMProps) => {
         </GridItem>
         <GridItem colSpan={1} />
         <GridItem colSpan={1}>
-          <Box boxSize="104px" mb={8}>
+          <Box boxSize="104px" mb={8} display="flex" justifyContent="center">
             <Image
               src={
                 //@ts-ignore
@@ -102,7 +102,7 @@ const TM = ({ tm }: ITMProps) => {
               }
               fallbackSrc="https://via.placeholder.com/160"
               alt={data?.title}
-              objectFit="fill"
+              objectFit="contain"
             />
           </Box>
 
