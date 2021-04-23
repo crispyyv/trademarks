@@ -7,6 +7,13 @@ export interface ISearchItemProps {
 }
 
 export const SearchItem = ({ item }: ISearchItemProps) => {
+  const src =
+    item?.image_url || item?.image || item?.image_path.includes("https")
+      ? item?.image_path
+      : `
+                https://statsnet.co/static/trademarks/${item?.image_path}
+              `;
+  console.log(src);
   return (
     <Link href={`/trademarks/${item.id}`}>
       <a>
@@ -15,24 +22,19 @@ export const SearchItem = ({ item }: ISearchItemProps) => {
           width={40}
           borderWidth="1px"
           borderRadius="lg"
+          display="flex"
+          justifyContent="center"
           overflow="hidden"
           mb={4}
         >
           <Image
             src={
               //@ts-ignore
-              item?.url ||
-              item?.image_url ||
-              item?.image ||
-              item?.image_path.includes("https")
-                ? item?.image_path
-                : `
-                https://statsnet.co/static/trademarks/${item?.image_path}
-              `
+              src
             }
             fallbackSrc="https://via.placeholder.com/160"
             alt={item.title}
-            objectFit="cover"
+            objectFit="contain"
           />
         </Box>
         <Flex
@@ -49,7 +51,11 @@ export const SearchItem = ({ item }: ISearchItemProps) => {
             {item.holder}
           </Box>
           <Box w="100%" fontSize="sm" color="gray.600">
-            {item.holder_country}-{item.trademark_number} · {item.source}
+            {item.holder_country}-
+            {item.trademark_number ||
+              item.registration_number ||
+              item.application_number}{" "}
+            · {item.source}
           </Box>
         </Flex>
       </a>

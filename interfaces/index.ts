@@ -6,6 +6,8 @@ export interface IClassification {
 
 export interface ITrademark {
   application_date: string;
+  application_number: string;
+  registration_number: string;
   classifications: string;
   exp_date: string;
   holder: string;

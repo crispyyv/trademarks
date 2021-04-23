@@ -20,6 +20,8 @@ export interface ITMProps {
   tm: ITrademark;
 }
 const mockData: ITrademark = {
+  registration_number: "",
+  application_number: "",
   application_date: "2000-12-14T00:00:00Z",
   classifications: "38",
   created_at: "2021-01-08T20:22:44.568584Z",
@@ -90,7 +92,6 @@ const TM = ({ tm }: ITMProps) => {
             <Image
               src={
                 //@ts-ignore
-                data?.url ||
                 data?.image_url ||
                 data?.image ||
                 data?.image_path.includes("https")
@@ -101,7 +102,7 @@ const TM = ({ tm }: ITMProps) => {
               }
               fallbackSrc="https://via.placeholder.com/160"
               alt={data?.title}
-              objectFit="cover"
+              objectFit="fill"
             />
           </Box>
 

@@ -73,6 +73,9 @@ const IndexPage = () => {
       onToggle();
     }
   }, [router]);
+
+  console.log(result);
+
   return (
     <Layout title="Поиск по товарным знакам">
       <Grid
