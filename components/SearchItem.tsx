@@ -13,7 +13,6 @@ export const SearchItem = ({ item }: ISearchItemProps) => {
       : `
                 https://statsnet.co/static/trademarks/${item?.image_path}
               `;
-  console.log(src);
   return (
     <Link href={`/trademarks/${item.id}`}>
       <a>

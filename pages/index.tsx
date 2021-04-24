@@ -74,8 +74,6 @@ const IndexPage = () => {
     }
   }, [router]);
 
-  console.log(result);
-
   return (
     <Layout title="Поиск по товарным знакам">
       <Grid
