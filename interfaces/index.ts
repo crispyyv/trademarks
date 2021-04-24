@@ -11,6 +11,8 @@ export interface ITrademark {
   classifications: string;
   exp_date: string;
   holder: string;
+  url?: string;
+  url_pdf?: string;
   holder_country: string;
   id: number;
   image: string;

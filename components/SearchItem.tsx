@@ -40,7 +40,7 @@ export const SearchItem = ({ item }: ISearchItemProps) => {
           direction="column"
           justify="flex-end"
           h="40%"
-          alignItems="end"
+          alignItems="start"
           textAlign="left"
         >
           <Box maxW={40} fontSize="md" color="blue.500">
@@ -50,7 +50,7 @@ export const SearchItem = ({ item }: ISearchItemProps) => {
             {item.holder}
           </Box>
           <Box w="100%" fontSize="sm" color="gray.600">
-            {item.holder_country}-
+            {item.holder_country && item.holder_country + "-"}
             {item.trademark_number ||
               item.registration_number ||
               item.application_number}{" "}

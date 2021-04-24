@@ -19,7 +19,7 @@ const Layout = ({ children, title = "Trademarks" }: Props) => (
 
     <Box w="100%" mb="auto">
       <Container maxW="container.md" w="100%" p={3}>
-        <Heading as="h1" size="md">
+        <Heading as="h1" size="md" px={3}>
           <Link href="/">
             <a>Товарные знаки</a>
           </Link>

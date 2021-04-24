@@ -5,6 +5,7 @@ import {
   GridItem,
   Heading,
   HStack,
+  Link,
   Text,
   VStack,
 } from "@chakra-ui/layout";
@@ -53,6 +54,7 @@ const TM = ({ tm }: ITMProps) => {
       setData(null);
     };
   }, []);
+  console.log(data);
 
   return (
     <Layout title={`Торговые марки - ${data?.title}`}>
@@ -67,7 +69,9 @@ const TM = ({ tm }: ITMProps) => {
           </VStack>
 
           <VStack spacing={2} alignItems="start">
-            <Text fontWeight="bold">Заявка подана</Text>
+            <Text fontWeight="bold">Номер заявки</Text>
+            <Text>{data?.application_number || "-"}</Text>
+            <Text fontWeight="bold">Дата подачи заявки</Text>
             <Text>
               {new Date(data?.application_date || "").toLocaleDateString(
                 "ru-RU",
@@ -109,26 +113,32 @@ const TM = ({ tm }: ITMProps) => {
           <VStack spacing={2} alignItems="start">
             <Text fontWeight="bold">Действует до</Text>
             <Text>
-              {new Date(data?.exp_date || "").toLocaleDateString("ru-RU", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {(data?.exp_date &&
+                new Date(data?.exp_date || "").toLocaleDateString("ru-RU", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })) ||
+                "-"}
             </Text>
             <Text fontWeight="bold">Свидетельство</Text>
-            <Text>{data?.classifications}</Text>{" "}
+            {((data?.url || data?.url_pdf) && (
+              <Link target="_blank" href={data?.url_pdf || data?.url}>
+                Перейти
+              </Link>
+            )) || <Text>-</Text>}
             <Text fontWeight="bold">Источник</Text>
             <Text>{data?.source}</Text>
           </VStack>
         </GridItem>
-        <GridItem mt={8} colSpan={2}>
+        <GridItem mt={8} colSpan={4}>
           <Heading size="md">Классы МКТУ</Heading>
           {data?.classifications.split(",").map((elem) =>
             classifications.map(
               (e) =>
                 e.id === elem.trim() && (
                   <HStack alignItems="start" my={2} spacing={2}>
-                    <Text>{e.id}</Text>
+                    <Text minW={6}>{e.id}</Text>
                     <Text>{e.text}</Text>
                   </HStack>
                 )
